@@ -1,0 +1,115 @@
+{"level":"error","message":"Error taking screenshot: Navigation timeout of 30000 ms exceeded","name":"TimeoutError","stack":"TimeoutError: Navigation timeout of 30000 ms exceeded\n    at new Deferred (file:///home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/puppeteer-core/lib/esm/puppeteer/util/Deferred.js:57:34)\n    at Deferred.create (file:///home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/puppeteer-core/lib/esm/puppeteer/util/Deferred.js:18:16)\n    at new LifecycleWatcher (file:///home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/puppeteer-core/lib/esm/puppeteer/cdp/LifecycleWatcher.js:66:46)\n    at CdpFrame.goto (file:///home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/puppeteer-core/lib/esm/puppeteer/cdp/Frame.js:145:29)\n    at CdpFrame.<anonymous> (file:///home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/puppeteer-core/lib/esm/puppeteer/util/decorators.js:101:27)\n    at CdpPage.goto (file:///home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/puppeteer-core/lib/esm/puppeteer/api/Page.js:570:43)\n    at takeScreenshot (webpack-internal:///(rsc)/./app/utils/screenshotService.ts:52:20)\n    at async POST (webpack-internal:///(rsc)/./app/api/screenshot/route.ts:14:25)\n    at async AppRouteRouteModule.do (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:26:33891)\n    at async AppRouteRouteModule.handle (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:26:41254)\n    at async doRender (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/server/base-server.js:1513:42)\n    at async DevServer.renderToResponseWithComponentsImpl (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/server/base-server.js:1915:28)\n    at async DevServer.renderPageComponent (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/server/base-server.js:2393:24)\n    at async DevServer.renderToResponseImpl (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/server/base-server.js:2430:32)\n    at async DevServer.pipeImpl (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/server/base-server.js:1003:25)\n    at async NextNodeServer.handleCatchallRenderRequest (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/server/next-server.js:304:17)\n    at async DevServer.handleRequestImpl (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/server/base-server.js:895:17)\n    at async /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/server/dev/next-dev-server.js:371:20\n    at async Span.traceAsyncFn (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/trace/trace.js:157:20)\n    at async DevServer.handleRequest (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/server/dev/next-dev-server.js:368:24)\n    at async invokeRender (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/server/lib/router-server.js:235:21)\n    at async handleRequest (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/server/lib/router-server.js:426:24)\n    at async requestHandlerImpl (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/server/lib/router-server.js:450:13)\n    at async Server.requestListener (/home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/node_modules/next/dist/server/lib/start-server.js:158:13)","timestamp":"2025-04-01T17:49:37.435Z"}
+{"level":"info","message":"Screenshot saved successfully: /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/public/screenshots/screenshot_2025-04-01T17-52-03-198Z.png","timestamp":"2025-04-01T17:52:03.705Z"}
+{"level":"info","message":"Attempted to click the dropdown menu","timestamp":"2025-04-01T17:57:46.972Z"}
+{"level":"info","message":"Screenshot saved successfully: /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/public/screenshots/screenshot_2025-04-01T17-57-49-976Z.png","timestamp":"2025-04-01T17:57:50.404Z"}
+{"level":"info","message":"Attempted to click the dropdown menu","timestamp":"2025-04-01T17:59:20.931Z"}
+{"level":"info","message":"Screenshot saved successfully: /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/public/screenshots/screenshot_2025-04-01T17-59-23-934Z.png","timestamp":"2025-04-01T17:59:24.342Z"}
+{"level":"info","message":"Attempted to click the dropdown menu","timestamp":"2025-04-01T18:01:15.859Z"}
+{"level":"info","message":"Screenshot saved successfully: /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/public/screenshots/screenshot_2025-04-01T18-01-18-862Z.png","timestamp":"2025-04-01T18:01:19.268Z"}
+{"level":"info","message":"Attempted to click the dropdown menu","timestamp":"2025-04-01T18:02:49.770Z"}
+{"level":"info","message":"Screenshot saved successfully: /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/public/screenshots/screenshot_2025-04-01T18-02-52-774Z.png","timestamp":"2025-04-01T18:02:53.200Z"}
+{"level":"info","message":"Attempted to click the dropdown menu","timestamp":"2025-04-01T18:06:46.279Z"}
+{"level":"info","message":"Screenshot saved successfully: /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/public/screenshots/screenshot_2025-04-01T18-06-49-285Z.png","timestamp":"2025-04-01T18:06:49.783Z"}
+{"level":"info","message":"Attempted to click the dropdown menu","timestamp":"2025-04-01T18:32:28.205Z"}
+{"level":"info","message":"Screenshot saved successfully: /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/public/screenshots/screenshot_2025-04-01T18-32-31-234Z.png","timestamp":"2025-04-01T18:32:31.694Z"}
+{"level":"info","message":"Devices data saved successfully","timestamp":"2025-04-01T18:32:31.695Z"}
+{"level":"info","message":"Attempted to click the dropdown menu","timestamp":"2025-04-01T18:34:04.429Z"}
+{"level":"info","message":"Screenshot saved successfully: /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/public/screenshots/screenshot_2025-04-01T18-34-07-475Z.png","timestamp":"2025-04-01T18:34:07.969Z"}
+{"level":"info","message":"Devices data saved successfully","timestamp":"2025-04-01T18:34:07.971Z"}
+{"level":"info","message":"Attempted to click the dropdown menu","timestamp":"2025-04-01T18:35:06.190Z"}
+{"level":"info","message":"Screenshot saved successfully: /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/public/screenshots/screenshot_2025-04-01T18-35-09-225Z.png","timestamp":"2025-04-01T18:35:09.695Z"}
+{"level":"info","message":"Devices data saved successfully","timestamp":"2025-04-01T18:35:09.696Z"}
+{"level":"info","message":"Attempted to click the dropdown menu","timestamp":"2025-04-01T18:38:02.541Z"}
+{"level":"info","message":"Successfully read online devices count: 321","timestamp":"2025-04-01T18:38:13.605Z"}
+{"level":"info","message":"Screenshot saved successfully: /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/public/screenshots/screenshot_2025-04-01T18-38-13-606Z.png","timestamp":"2025-04-01T18:38:14.255Z"}
+{"level":"info","message":"Devices data saved successfully","timestamp":"2025-04-01T18:38:14.257Z"}
+{"level":"info","message":"Starting screenshot process...","timestamp":"2025-04-01T20:55:39.248Z"}
+{"level":"info","message":"Browser launched successfully","timestamp":"2025-04-01T20:55:40.881Z"}
+{"level":"info","message":"Page created and viewport set","timestamp":"2025-04-01T20:55:41.771Z"}
+{"level":"info","message":"Navigating to UISP devices page...","timestamp":"2025-04-01T20:55:41.772Z"}
+{"level":"info","message":"Page navigation completed","timestamp":"2025-04-01T20:56:23.954Z"}
+{"level":"info","message":"Waiting for login form elements...","timestamp":"2025-04-01T20:56:23.956Z"}
+{"level":"info","message":"Login form elements found","timestamp":"2025-04-01T20:56:24.854Z"}
+{"level":"info","message":"Attempting login...","timestamp":"2025-04-01T20:56:24.855Z"}
+{"level":"info","message":"Login credentials entered","timestamp":"2025-04-01T20:56:26.257Z"}
+{"level":"info","message":"Waiting for login button...","timestamp":"2025-04-01T20:56:26.258Z"}
+{"level":"info","message":"Login button clicked","timestamp":"2025-04-01T20:56:27.005Z"}
+{"level":"info","message":"Waiting for post-login page load...","timestamp":"2025-04-01T20:56:27.006Z"}
+{"level":"info","message":"Post-login page load completed","timestamp":"2025-04-01T20:56:27.887Z"}
+{"level":"info","message":"Looking for online devices dropdown...","timestamp":"2025-04-01T20:56:27.888Z"}
+{"level":"info","message":"Online devices dropdown clicked","timestamp":"2025-04-01T20:56:30.501Z"}
+{"level":"info","message":"Waiting for dropdown data to load...","timestamp":"2025-04-01T20:56:30.502Z"}
+{"level":"info","message":"Dropdown data load wait completed","timestamp":"2025-04-01T20:56:38.503Z"}
+{"level":"info","message":"Waiting for online devices count to be visible...","timestamp":"2025-04-01T20:56:38.504Z"}
+{"level":"info","message":"Online devices count element found","timestamp":"2025-04-01T20:56:41.812Z"}
+{"level":"info","message":"Additional wait for content stability...","timestamp":"2025-04-01T20:56:41.815Z"}
+{"level":"info","message":"Content stability wait completed","timestamp":"2025-04-01T20:56:44.817Z"}
+{"level":"info","message":"Attempt 1 to read online devices count...","timestamp":"2025-04-01T20:56:44.817Z"}
+{"level":"info","message":"Successfully read online devices count: 322","timestamp":"2025-04-01T20:56:44.858Z"}
+{"level":"info","message":"Taking screenshot...","timestamp":"2025-04-01T20:56:44.859Z"}
+{"level":"info","message":"Screenshot saved successfully: /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/public/screenshots/screenshot_2025-04-01T20-56-44-859Z.png","timestamp":"2025-04-01T20:56:45.699Z"}
+{"level":"info","message":"Saving devices data...","timestamp":"2025-04-01T20:56:45.700Z"}
+{"level":"info","message":"Devices data saved successfully","timestamp":"2025-04-01T20:56:45.702Z"}
+{"level":"info","message":"Devices data saved successfully","timestamp":"2025-04-01T20:56:45.702Z"}
+{"level":"info","message":"Closing browser...","timestamp":"2025-04-01T20:56:45.702Z"}
+{"level":"info","message":"Browser closed successfully","timestamp":"2025-04-01T20:56:46.399Z"}
+{"level":"info","message":"Starting screenshot process...","timestamp":"2025-04-01T21:04:30.962Z"}
+{"level":"info","message":"Browser launched successfully","timestamp":"2025-04-01T21:04:31.975Z"}
+{"level":"info","message":"Page created and viewport set","timestamp":"2025-04-01T21:04:32.602Z"}
+{"level":"info","message":"Navigating to UISP devices page...","timestamp":"2025-04-01T21:04:32.603Z"}
+{"level":"info","message":"Page navigation completed","timestamp":"2025-04-01T21:05:15.563Z"}
+{"level":"info","message":"Waiting for login form elements...","timestamp":"2025-04-01T21:05:15.564Z"}
+{"level":"info","message":"Login form elements found","timestamp":"2025-04-01T21:05:16.352Z"}
+{"level":"info","message":"Attempting login...","timestamp":"2025-04-01T21:05:16.352Z"}
+{"level":"info","message":"Login credentials entered","timestamp":"2025-04-01T21:05:18.925Z"}
+{"level":"info","message":"Waiting for login button...","timestamp":"2025-04-01T21:05:18.926Z"}
+{"level":"info","message":"Login button clicked","timestamp":"2025-04-01T21:05:19.751Z"}
+{"level":"info","message":"Waiting for post-login page load...","timestamp":"2025-04-01T21:05:19.752Z"}
+{"level":"info","message":"Post-login page load completed","timestamp":"2025-04-01T21:05:20.767Z"}
+{"level":"info","message":"Looking for online devices dropdown...","timestamp":"2025-04-01T21:05:20.768Z"}
+{"level":"info","message":"Online devices dropdown clicked","timestamp":"2025-04-01T21:05:22.520Z"}
+{"level":"info","message":"Waiting for dropdown data to load...","timestamp":"2025-04-01T21:05:22.520Z"}
+{"level":"info","message":"Dropdown data load wait completed","timestamp":"2025-04-01T21:05:30.522Z"}
+{"level":"info","message":"Waiting for online devices count to be visible...","timestamp":"2025-04-01T21:05:30.523Z"}
+{"level":"info","message":"Online devices count element found","timestamp":"2025-04-01T21:05:30.973Z"}
+{"level":"info","message":"Additional wait for content stability...","timestamp":"2025-04-01T21:05:30.973Z"}
+{"level":"info","message":"Content stability wait completed","timestamp":"2025-04-01T21:05:33.979Z"}
+{"level":"info","message":"Attempt 1 to read online devices count...","timestamp":"2025-04-01T21:05:33.980Z"}
+{"level":"info","message":"Successfully read online devices count: 322","timestamp":"2025-04-01T21:05:34.699Z"}
+{"level":"info","message":"Taking screenshot...","timestamp":"2025-04-01T21:05:34.699Z"}
+{"level":"info","message":"Screenshot saved successfully: /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/public/screenshots/screenshot_2025-04-01T21-05-34-699Z.png","timestamp":"2025-04-01T21:05:35.345Z"}
+{"level":"info","message":"Saving devices data...","timestamp":"2025-04-01T21:05:35.346Z"}
+{"level":"info","message":"Devices data saved successfully","timestamp":"2025-04-01T21:05:35.347Z"}
+{"level":"info","message":"Devices data saved successfully","timestamp":"2025-04-01T21:05:35.347Z"}
+{"level":"info","message":"Closing browser...","timestamp":"2025-04-01T21:05:35.347Z"}
+{"level":"info","message":"Browser closed successfully","timestamp":"2025-04-01T21:05:38.553Z"}
+{"level":"info","message":"Starting screenshot process...","timestamp":"2025-04-01T21:06:01.969Z"}
+{"level":"info","message":"Browser launched successfully","timestamp":"2025-04-01T21:06:02.804Z"}
+{"level":"info","message":"Page created and viewport set","timestamp":"2025-04-01T21:06:03.304Z"}
+{"level":"info","message":"Navigating to UISP devices page...","timestamp":"2025-04-01T21:06:03.305Z"}
+{"level":"info","message":"Page navigation completed","timestamp":"2025-04-01T21:06:45.797Z"}
+{"level":"info","message":"Waiting for login form elements...","timestamp":"2025-04-01T21:06:45.798Z"}
+{"level":"info","message":"Login form elements found","timestamp":"2025-04-01T21:06:47.419Z"}
+{"level":"info","message":"Attempting login...","timestamp":"2025-04-01T21:06:47.420Z"}
+{"level":"info","message":"Login credentials entered","timestamp":"2025-04-01T21:06:50.857Z"}
+{"level":"info","message":"Waiting for login button...","timestamp":"2025-04-01T21:06:50.858Z"}
+{"level":"info","message":"Login button clicked","timestamp":"2025-04-01T21:06:51.210Z"}
+{"level":"info","message":"Waiting for post-login page load...","timestamp":"2025-04-01T21:06:51.211Z"}
+{"level":"info","message":"Post-login page load completed","timestamp":"2025-04-01T21:06:52.781Z"}
+{"level":"info","message":"Looking for online devices dropdown...","timestamp":"2025-04-01T21:06:52.783Z"}
+{"level":"info","message":"Online devices dropdown clicked","timestamp":"2025-04-01T21:07:00.086Z"}
+{"level":"info","message":"Waiting for dropdown data to load...","timestamp":"2025-04-01T21:07:00.087Z"}
+{"level":"info","message":"Dropdown data load wait completed","timestamp":"2025-04-01T21:07:08.088Z"}
+{"level":"info","message":"Waiting for online devices count to be visible...","timestamp":"2025-04-01T21:07:08.089Z"}
+{"level":"info","message":"Online devices count element found","timestamp":"2025-04-01T21:07:08.746Z"}
+{"level":"info","message":"Additional wait for content stability...","timestamp":"2025-04-01T21:07:08.746Z"}
+{"level":"info","message":"Content stability wait completed","timestamp":"2025-04-01T21:07:11.747Z"}
+{"level":"info","message":"Attempt 1 to read online devices count...","timestamp":"2025-04-01T21:07:11.748Z"}
+{"level":"info","message":"Successfully read online devices count: 322","timestamp":"2025-04-01T21:07:12.701Z"}
+{"level":"info","message":"Taking screenshot...","timestamp":"2025-04-01T21:07:12.702Z"}
+{"level":"info","message":"Screenshot saved successfully: /home/jason/daily-UISPI-screenshot-nextJS/daily-uisp-screenshot/public/screenshots/screenshot_2025-04-01T21-07-12-702Z.png","timestamp":"2025-04-01T21:07:13.768Z"}
+{"level":"info","message":"Saving devices data...","timestamp":"2025-04-01T21:07:13.768Z"}
+{"level":"info","message":"Devices data saved successfully","timestamp":"2025-04-01T21:07:13.769Z"}
+{"level":"info","message":"Devices data saved successfully","timestamp":"2025-04-01T21:07:13.769Z"}
+{"level":"info","message":"Closing browser...","timestamp":"2025-04-01T21:07:13.769Z"}
+{"level":"info","message":"Browser closed successfully","timestamp":"2025-04-01T21:07:14.433Z"}
