@@ -1,20 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+type Params = {
+  path: string[];
+};
+
 /**
  * This is a proxy API route to handle PocketBase image requests
  * It bypasses Next.js image domain restrictions by routing the request through our own API
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  context: { params: Params }
 ) {
   try {
     // Extract cache-busting param if any
     const url = new URL(request.url);
     const nocache = url.searchParams.get('nocache');
     
+    // Properly await and access the path parameter
+    // Clone it to avoid the "params should be awaited" warning
+    const paramsClone = { ...await Promise.resolve(context.params) };
+    const pathSegments = paramsClone.path || [];
+    
     // Reconstruct the PocketBase URL
-    const pathSegments = params.path || [];
     const pbPath = pathSegments.join('/');
     
     // Full URL to PocketBase
