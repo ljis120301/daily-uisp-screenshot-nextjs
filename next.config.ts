@@ -13,10 +13,17 @@ const nextConfig = {
     return config;
   },
   images: {
+    unoptimized: true,
+    domains: ['localhost'],
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'uisp.parkcomm.net',
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8090',
+        pathname: '/**',
       },
     ],
   },

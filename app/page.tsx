@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import { useState, useEffect, useRef } from 'react';
 import ImageModal from '@/components/ImageModal';
 import { DevicesChart } from '@/components/DevicesChart';
 import Loader from '@/components/loader';
+import DirectImage from '@/components/DirectImage';
 import {
   Pagination,
   PaginationContent,
@@ -14,6 +14,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
+// Remove this loader as we're using direct image paths
 interface Screenshot {
   name: string;
   path: string;
@@ -28,11 +29,29 @@ export default function Home() {
   const [screenshots, setScreenshots] = useState<Screenshot[]>([]);
   const [selectedScreenshot, setSelectedScreenshot] = useState<Screenshot | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [imageFallbacks, setImageFallbacks] = useState<Record<string, boolean>>({});
+  const fetchTimestampRef = useRef<number>(0);
+
+  useEffect(() => {
+    fetch('/api/create-placeholder')
+      .then(response => response.json())
+      .catch(error => console.error('Failed to create placeholder:', error));
+  }, []);
 
   const fetchScreenshots = async () => {
     try {
-      const response = await fetch('/api/screenshots');
+      // Add a timestamp to prevent caching
+      const timestamp = Date.now();
+      fetchTimestampRef.current = timestamp;
+      
+      // Add cache-busting parameter
+      const response = await fetch(`/api/screenshots?t=${timestamp}`);
+      
+      // Check if this is still the most recent request
+      if (timestamp !== fetchTimestampRef.current) return;
+      
       const data = await response.json();
+      console.log('Fetched screenshots:', data.screenshots);
       setScreenshots(data.screenshots);
     } catch (error) {
       console.error('Error fetching screenshots:', error);
@@ -41,6 +60,10 @@ export default function Home() {
 
   useEffect(() => {
     fetchScreenshots();
+    
+    // Refresh every 30 seconds to prevent stale images
+    const interval = setInterval(fetchScreenshots, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   const takeScreenshot = async () => {
@@ -59,6 +82,14 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleImageError = (screenshotId: string) => {
+    console.error(`Image error for screenshot: ${screenshotId}`);
+    setImageFallbacks(prev => ({
+      ...prev,
+      [screenshotId]: true
+    }));
   };
 
   const totalPages = Math.ceil(screenshots.length / SCREENSHOTS_PER_PAGE);
@@ -99,27 +130,36 @@ export default function Home() {
           <h2 className="text-xl font-semibold mb-6">Latest Screenshots</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
             {currentScreenshots.length > 0 ? (
-              currentScreenshots.map((screenshot) => (
-                <div 
-                  key={screenshot.name} 
-                  className="group relative aspect-video cursor-pointer rounded-lg overflow-hidden border bg-card shadow-sm transition-all hover:shadow-md"
-                  onClick={() => setSelectedScreenshot(screenshot)}
-                >
-                  <Image
-                    src={screenshot.path}
-                    alt={`Screenshot from ${new Date(screenshot.date).toLocaleString()}`}
-                    fill
-                    className="object-contain transition-transform group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <p className="text-sm text-foreground">
-                        {new Date(screenshot.date).toLocaleString()}
-                      </p>
+              currentScreenshots.map((screenshot) => {
+                const useFallback = imageFallbacks[screenshot.name];
+                // Use direct path with cache-busting parameter
+                const imageSrc = useFallback 
+                  ? '/placeholder-image.png' 
+                  : screenshot.path;
+                
+                return (
+                  <div 
+                    key={screenshot.name} 
+                    className="group relative aspect-video cursor-pointer rounded-lg overflow-hidden border bg-card shadow-sm transition-all hover:shadow-md"
+                    onClick={() => setSelectedScreenshot(screenshot)}
+                  >
+                    {/* Use DirectImage component to bypass Next.js image optimization */}
+                    <DirectImage
+                      src={imageSrc}
+                      alt={`Screenshot from ${new Date(screenshot.date).toLocaleString()}`}
+                      className="w-full h-full object-contain transition-transform group-hover:scale-105"
+                      onLoad={() => console.log(`Loaded screenshot: ${screenshot.name}`)}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <p className="text-sm text-foreground">
+                          {new Date(screenshot.date).toLocaleString()}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             ) : (
               <p className="col-span-full text-center text-muted-foreground py-8">
                 No screenshots available yet.
@@ -163,7 +203,11 @@ export default function Home() {
 
       {selectedScreenshot && (
         <ImageModal
-          imagePath={selectedScreenshot.path}
+          imagePath={
+            imageFallbacks[selectedScreenshot.name] 
+              ? '/placeholder-image.png' 
+              : selectedScreenshot.path
+          }
           date={selectedScreenshot.date}
           onClose={() => setSelectedScreenshot(null)}
         />

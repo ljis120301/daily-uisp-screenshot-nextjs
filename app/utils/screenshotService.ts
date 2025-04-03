@@ -2,6 +2,8 @@ import puppeteer from 'puppeteer';
 import winston from 'winston';
 import fs from 'fs';
 import path from 'path';
+import pb from '@/lib/pocketbase';
+import { createScreenshotRecord, isPocketBaseAvailable } from '@/lib/pocketbase-utils';
 
 // Set up logging
 const logger = winston.createLogger({
@@ -16,13 +18,13 @@ const logger = winston.createLogger({
   ]
 });
 
-// Create screenshots directory if it doesn't exist
+// Create screenshots directory if it doesn't exist (for temporary storage)
 const screenshotsDir = path.join(process.cwd(), 'public', 'screenshots');
 if (!fs.existsSync(screenshotsDir)) {
   fs.mkdirSync(screenshotsDir, { recursive: true });
 }
 
-// Create data directory if it doesn't exist
+// Create data directory if it doesn't exist (for backup)
 const dataDir = path.join(process.cwd(), 'data');
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
@@ -30,7 +32,7 @@ if (!fs.existsSync(dataDir)) {
 
 const devicesDataFile = path.join(dataDir, 'online_devices_history.json');
 
-// Function to load existing data
+// Function to load existing data from backup file
 function loadDevicesData() {
   if (fs.existsSync(devicesDataFile)) {
     try {
@@ -43,13 +45,13 @@ function loadDevicesData() {
   return [];
 }
 
-// Function to save devices data
+// Function to save devices data to backup file
 function saveDevicesData(data: any[]) {
   try {
     fs.writeFileSync(devicesDataFile, JSON.stringify(data, null, 2));
-    logger.info('Devices data saved successfully');
+    logger.info('Devices data saved to backup file successfully');
   } catch (error) {
-    logger.error('Error saving devices data:', error);
+    logger.error('Error saving devices data to backup file:', error);
   }
 }
 
@@ -151,27 +153,101 @@ export async function takeScreenshot(): Promise<boolean> {
     }
 
     // Generate timestamp for filename
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const screenshotPath = path.join(screenshotsDir, `screenshot_${timestamp}.png`);
+    const timestamp = new Date().toISOString();
+    const formattedTimestamp = timestamp.replace(/[:.]/g, '-');
+    const tempScreenshotPath = path.join(screenshotsDir, `screenshot_${formattedTimestamp}.png`);
 
     // Take screenshot
     logger.info('Taking screenshot...');
     await page.screenshot({
-      path: screenshotPath,
+      path: tempScreenshotPath,
       fullPage: true
     });
-    logger.info(`Screenshot saved successfully: ${screenshotPath}`);
+    logger.info(`Screenshot saved temporarily: ${tempScreenshotPath}`);
 
-    // Save the online devices count to JSON file
-    logger.info('Saving devices data...');
-    const devicesData = loadDevicesData();
-    devicesData.push({
-      timestamp: new Date().toISOString(),
-      onlineDevices: onlineDevicesCount,
-      screenshotPath: `/screenshots/screenshot_${timestamp}.png`
-    });
-    saveDevicesData(devicesData);
-    logger.info('Devices data saved successfully');
+    // Save the screenshot and data to PocketBase if available
+    logger.info('Checking PocketBase availability...');
+    const isPbAvailable = await isPocketBaseAvailable();
+    
+    if (isPbAvailable) {
+      logger.info('PocketBase is available. Saving screenshot to database...');
+      try {
+        // Create FormData for PocketBase
+        const formData = new FormData();
+        
+        // Read file and create File object
+        const fileData = fs.readFileSync(tempScreenshotPath);
+        logger.info(`Screenshot file size: ${fileData.length} bytes`);
+        
+        // Create a proper File object
+        const fileName = path.basename(tempScreenshotPath);
+        const file = new File([fileData], fileName, { type: 'image/png' });
+        
+        // Add to form data
+        formData.append('screenshot', file);
+        formData.append('timestamp', timestamp);
+        formData.append('onlineDevices', onlineDevicesCount.toString());
+        
+        // Log form data entries
+        logger.info('FormData contents:');
+        for (const pair of formData.entries()) {
+          logger.info(`- ${pair[0]}: ${typeof pair[1]} ${pair[1] instanceof File ? '(File: ' + pair[1].name + ', ' + pair[1].size + ' bytes)' : pair[1]}`);
+        }
+        
+        // Save to PocketBase
+        const record = await pb.collection('screenshots').create(formData);
+        logger.info(`Screenshot saved to PocketBase with ID: ${record.id}`);
+        
+        // Verify the file was uploaded correctly
+        if (record.screenshot) {
+          const fileUrl = pb.files.getURL(record, record.screenshot);
+          logger.info(`Screenshot URL: ${fileUrl}`);
+        } else {
+          logger.warn('Screenshot file may not have been saved correctly');
+        }
+        
+        // Save to backup file as well
+        const devicesData = loadDevicesData();
+        devicesData.push({
+          timestamp,
+          onlineDevices: onlineDevicesCount,
+          screenshotId: record.id
+        });
+        saveDevicesData(devicesData);
+        logger.info('Devices data saved to backup file');
+        
+        // Delete the temporary file
+        fs.unlinkSync(tempScreenshotPath);
+        logger.info('Temporary screenshot file deleted');
+      } catch (error) {
+        logger.error('Error saving to PocketBase:', error);
+        
+        // Keep the file in the public directory as a fallback
+        logger.info('Keeping screenshot in public directory as fallback');
+        
+        // Save to backup file
+        const devicesData = loadDevicesData();
+        devicesData.push({
+          timestamp,
+          onlineDevices: onlineDevicesCount,
+          screenshotPath: `/screenshots/screenshot_${formattedTimestamp}.png`
+        });
+        saveDevicesData(devicesData);
+        logger.info('Devices data saved to backup file with local path');
+      }
+    } else {
+      logger.info('PocketBase is not available. Saving screenshot to file system only...');
+      
+      // Save to backup file only
+      const devicesData = loadDevicesData();
+      devicesData.push({
+        timestamp,
+        onlineDevices: onlineDevicesCount,
+        screenshotPath: `/screenshots/screenshot_${formattedTimestamp}.png`
+      });
+      saveDevicesData(devicesData);
+      logger.info('Devices data saved to backup file with local path');
+    }
     
     // Close browser
     logger.info('Closing browser...');
