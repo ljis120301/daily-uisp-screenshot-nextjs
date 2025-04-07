@@ -1,9 +1,4 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
-
-type Params = {
-  path: string[];
-};
+import { NextRequest } from 'next/server';
 
 /**
  * This is a proxy API route to handle PocketBase image requests
@@ -11,17 +6,15 @@ type Params = {
  */
 export async function GET(
   request: NextRequest,
-  context: { params: Params }
-) {
+  { params }: any
+): Promise<Response> {
   try {
     // Extract cache-busting param if any
     const url = new URL(request.url);
     const nocache = url.searchParams.get('nocache');
     
-    // Properly await and access the path parameter
-    // Clone it to avoid the "params should be awaited" warning
-    const paramsClone = { ...await Promise.resolve(context.params) };
-    const pathSegments = paramsClone.path || [];
+    // Extract path from params
+    const pathSegments = params.path as string[];
     
     // Reconstruct the PocketBase URL
     const pbPath = pathSegments.join('/');
@@ -34,59 +27,34 @@ export async function GET(
     // Fetch the image from PocketBase
     const response = await fetch(pbUrl, {
       headers: {
-        // Forward all headers except host
-        ...Object.fromEntries(
-          Array.from(request.headers.entries())
-            .filter(([key]) => key.toLowerCase() !== 'host')
-        ),
+        'Accept': 'image/*'
       },
-      cache: 'no-store', // Prevent caching issues
+      cache: nocache ? 'no-store' : 'default'
     });
-    
+
     if (!response.ok) {
-      console.error(`Error fetching image from PocketBase: ${response.status} ${response.statusText}`);
-      // Return placeholder image instead of 404
-      try {
-        const placeholderResponse = await fetch(new URL('/placeholder-image.png', request.url));
-        const placeholderData = await placeholderResponse.arrayBuffer();
-        return new NextResponse(placeholderData, { 
-          status: 200,
-          headers: {
-            'Content-Type': 'image/png',
-            'Content-Length': placeholderData.byteLength.toString(),
-            'Cache-Control': 'no-store, max-age=0',
-            'Content-Disposition': 'inline'
-          }
-        });
-      } catch (placeholderError) {
-        console.error('Failed to serve placeholder:', placeholderError);
-        return new NextResponse(null, { status: response.status });
-      }
+      console.error(`PocketBase image fetch failed: ${response.status} ${response.statusText}`);
+      return new Response(`Failed to fetch image: ${response.statusText}`, {
+        status: response.status,
+      });
     }
-    
-    // Get the image data
-    const imageData = await response.arrayBuffer();
-    console.log(`Successfully fetched image, size: ${imageData.byteLength} bytes`);
-    
-    // Create a new response with the image data and appropriate headers
-    const contentType = response.headers.get('content-type') || 'image/png';
-    
-    // Headers focused on ensuring the image is directly displayed
-    const headers = new Headers();
-    headers.set('Content-Type', contentType);
-    headers.set('Content-Length', imageData.byteLength.toString());
-    headers.set('Content-Disposition', 'inline');
-    
-    // Always set no-cache to prevent browser caching issues
-    headers.set('Cache-Control', 'no-store, max-age=0');
-    headers.set('Pragma', 'no-cache');
-    headers.set('Expires', '0');
-    
-    return new NextResponse(imageData, {
-      headers,
+
+    // Get content-type and other headers from the original response
+    const contentType = response.headers.get('content-type') || 'image/jpeg';
+    const data = await response.arrayBuffer();
+
+    // Return the image with appropriate headers
+    return new Response(data, {
+      status: 200,
+      headers: {
+        'Content-Type': contentType,
+        'Cache-Control': nocache ? 'no-cache, no-store' : 'public, max-age=3600',
+      },
     });
   } catch (error) {
-    console.error('Error proxying PocketBase image:', error);
-    return new NextResponse(null, { status: 500 });
+    console.error('Error in PocketBase image proxy:', error);
+    return new Response('Internal Server Error', {
+      status: 500,
+    });
   }
-} 
+}
