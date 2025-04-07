@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 import pb from '@/lib/pocketbase';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
     console.log('Processing client upload...');
     

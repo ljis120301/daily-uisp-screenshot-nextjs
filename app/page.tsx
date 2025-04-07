@@ -174,8 +174,7 @@ export default function Home() {
                   <PaginationItem>
                     <PaginationPrevious 
                       onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                      className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                    />
+                      className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'} size={undefined}                    />
                   </PaginationItem>
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                     <PaginationItem key={page}>
@@ -183,6 +182,7 @@ export default function Home() {
                         onClick={() => setCurrentPage(page)}
                         isActive={currentPage === page}
                         className="cursor-pointer"
+                        size={undefined}
                       >
                         {page}
                       </PaginationLink>
@@ -192,6 +192,7 @@ export default function Home() {
                     <PaginationNext 
                       onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                       className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      size={undefined}
                     />
                   </PaginationItem>
                 </PaginationContent>

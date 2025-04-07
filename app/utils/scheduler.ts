@@ -14,38 +14,32 @@ const logger = winston.createLogger({
   ]
 });
 
-let lastScreenshotTime = 0;
-
 export function startScheduler() {
   // Schedule task to run every day at midnight
   cron.schedule('0 0 * * *', async () => {
     try {
-      const currentTime = Date.now();
+      logger.info('Starting scheduled screenshot task...');
+      const success = await takeScreenshot();
       
-      // Check if 24 hours have passed
-      if (currentTime - lastScreenshotTime >= 24 * 60 * 60 * 1000) {
-        const success = await takeScreenshot();
-        if (success) {
-          lastScreenshotTime = currentTime;
-          logger.info('Daily screenshot completed successfully');
-        } else {
-          logger.warn('Daily screenshot failed, will retry in 1 hour');
-          // Retry after 1 hour
-          setTimeout(async () => {
-            const retrySuccess = await takeScreenshot();
-            if (retrySuccess) {
-              lastScreenshotTime = Date.now();
-              logger.info('Retry screenshot completed successfully');
-            } else {
-              logger.error('Retry screenshot failed');
-            }
-          }, 60 * 60 * 1000);
-        }
+      if (success) {
+        logger.info('Scheduled screenshot completed successfully');
+      } else {
+        logger.error('Scheduled screenshot failed');
+        // Retry after 1 hour
+        setTimeout(async () => {
+          logger.info('Retrying failed screenshot...');
+          const retrySuccess = await takeScreenshot();
+          if (retrySuccess) {
+            logger.info('Retry screenshot completed successfully');
+          } else {
+            logger.error('Retry screenshot failed');
+          }
+        }, 60 * 60 * 1000);
       }
     } catch (error) {
       logger.error('Scheduler error:', error);
     }
   });
 
-  logger.info('Screenshot scheduler started');
+  logger.info('Screenshot scheduler started successfully');
 } 
